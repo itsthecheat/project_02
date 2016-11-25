@@ -1,0 +1,19 @@
+{
+  "name": "project_02",
+  "version": "1.0.0",
+  "description": "full-stack node web app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsthecheat/project_02.git"
+  },
+  "author": "Leslie Behum",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsthecheat/project_02/issues"
+  },
+  "homepage": "https://github.com/itsthecheat/project_02#readme"
+}
