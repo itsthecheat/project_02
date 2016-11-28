@@ -3,6 +3,19 @@ html
     link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet', href='/css/style.css')
   body
-    h1 welcome
-    p sign in
+    h1 Welcome
+    div
+      form(method='POST', action='/')
+        p Email
+        input(type='email',name='email',placeholder='Email')
+        p Password
+        input(type='password',name='password',placeholder='Password')
+        p
+        button.btn.btn-default(type='submit') Sign In!
+
+        div
+            a(href="/create") Sign up!
+
+
+
 

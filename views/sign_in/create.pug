@@ -3,3 +3,12 @@ html
     link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet', href='/css/style.css')
   body
+
+form(method='POST', action='/create')
+  p Email
+  input(type='email',name='email',placeholder='Email')
+  p Password
+  input(type='password',name='password',placeholder='Password')
+  p
+  button.btn.btn-default(type='submit') Sign Up!
+
