@@ -1,13 +1,20 @@
+const dotenv = require('dotenv').config({path: 'keys.env'});
 const exp = require('express');
 const pug = require('pug');
 const bdPars = require('body-parser'); //body parser
 const methodOverride = require('method-override'); //method override
 const pgp = require('pg-promise')();
-const db = pgp('postgres://lesliebehum@localhost:5432/proj2_users_db');
+const db = pgp(process.env.DATABASE_URL || 'postgres://lesliebehum@localhost:5432/proj2_users_db');
 const app = exp();
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSalt(10);
 const session = require('express-session');
+const PORT = process.env.PORT || 8080;
+const fetchUrl = require('fetch').fetchUrl;
+const request = require('request');
+
+//KEYS
+var NEWS_KEY = process.env.NEWS_KEY
 
 //configure express and related packages
 app.set('view engine', 'pug');
@@ -33,26 +40,51 @@ app.use(session({
       secure: false
     }
   }))
-  //start routes
-app.get('/', function(req, res) { //check session
+
+//start routes
+app.get('/', function(req, res) {
+  res.render('index');
+});
+app.get('/login', function(req, res) {
+  res.render('sign_in/login');
+});
+app.get('/create', function(req, res) {
+  res.render('sign_in/create');
+});
+app.get('/news', function(req, res){
+  res.render('happy');
+})
+
+//NEWS API
+app.get('/article', function(req, res){
+  var api = 'https://newsapi.org/v1/articles?source=independent&sortBy=top&apiKey='+NEWS_KEY;
+  request(api, function(err, resp, body) {
+  body = JSON.parse(body);
+  // pass back the results to client side
+  data = body.articles[0]
+  res.send(data);
+   // console.log(data)
+  });
+});
+
+//check session
+app.get('/', function(req, res) {
   var logged_in;
   var email;
-
-  if (req.session.user) {
-    logged_in = true;
-    email = req.session.user.email;
-  }
-
   var data = {
     "logged_in": logged_in,
     "email": email
   }
-  res.render('sign_in/login', data);
+  if (req.session.user) {
+    logged_in = true;
+    email = req.session.user.email;
+    res.redirect('/login', data);
+  } else {
+    res.redirect('/');
+  }
 });
+
 //create new user
-app.get('/create', function(req, res) {
-  res.render('sign_in/create');
-});
 app.post('/create', function(req, res) {
     var data = req.body;
 
@@ -63,9 +95,10 @@ app.post('/create', function(req, res) {
         res.render('sign_in/create_success');
       })
     });
-  })
-  //login
-app.post('/login', function(req, res) {
+});
+
+//user login
+app.post('/', function(req, res) {
   var data = req.body;
 
   db.one(
@@ -76,15 +109,16 @@ app.post('/login', function(req, res) {
     bcrypt.compare(data.password, user.password, function(err, cmp) {
       if (cmp) {
         req.session.user = user;
-        res.render('sign_in/login');
+        res.redirect('/login');
       } else {
         res.render('sign_in/error')
       }
     });
   });
 });
-//logout
+
+//user logout
 app.get('/logout', function(req, res) {
   req.session.destroy();
-      res.render('sign_in/logout');
-  });
+  res.render('sign_in/logout');
+});

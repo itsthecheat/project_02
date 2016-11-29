@@ -21,12 +21,15 @@
     "blowfish": "^1.0.1",
     "body-parser": "^1.15.2",
     "client-sessions": "^0.7.0",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "express-sessions": "^1.0.6",
+    "fetch": "^1.1.0",
     "method-override": "^2.3.7",
     "mustache-express": "^1.2.4",
     "pg-promise": "^5.4.3",
-    "pug": "^2.0.0-beta6"
+    "pug": "^2.0.0-beta6",
+    "request": "^2.79.0"
   }
 }
