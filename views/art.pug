@@ -2,7 +2,7 @@ doctype html
 html
   include sign_in/includes/head.pug
   script(src='js/jquery.js')
-  script(src='js/script.js')
+  script(src='js/art.js')
   body
       .container
         .header.clearfix
@@ -16,14 +16,18 @@ html
                 a(href='/contact') Contact
           h3.text-muted Take Fifteen
         .jumbotron
-          .media
-            .media-left
-            .clearfix
-            img.img-responsive(src='')
-            .media-body
-              a.leave(href='')
-                h2.media-heading
-              p.description
+          .input-group
+            input.form-control(type='text', placeholder='ex. Picasso')
+            span.input-group-btn
+              button.btn.btn-default(type='button') Go!
+          div.results.row image title
+          .clearfix
+            .col-xs-4 image
+            .col-xs-8 artist
+              .row info
+              .row info
+              .row info
+
 
         footer.footer
           p © 2016 Leslie L Behum

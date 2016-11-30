@@ -1,11 +1,47 @@
+doctype html
 html
-  head
-    link(rel='stylesheet', href='/css/bootstrap.css')
-    link(rel='stylesheet', href='/css/style.css')
-  body
+    include includes/head.pug
+    body
+      .container
+        .header.clearfix
+          nav
+            ul.nav.nav-pills.pull-right
+              li.active(role='presentation')
+                a(href='/login') Home
+              li(role='presentation')
+                a(href='/about') About
+              li(role='presentation')
+                a(href='/contact') Contact
+          h3.text-muted Take Fifteen
+        .jumbotron
+          h1 Welcome
+          p.lead
+            | A friendly welcome message will go here
+          p
+        .row.marketing
+          .col-lg-6
+            h4
+              a(href='/news') News Headlines
+            p
+              | Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+            h4 Subheading
+            p
+              | Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+            h4 Subheading
+            p Maecenas sed diam eget risus varius blandit sit amet non magna.
+          .col-lg-6
+            h4
+              a(href='/museum') Browse Artworks
+            p
+              | Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+            h4 Subheading
+            p
+              | Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+            h4 Subheading
+            p Maecenas sed diam eget risus varius blandit sit amet non magna.
+        footer.footer
+          p © 2016 Leslie L Behum
+      //- // /container
+      //- // IE10 viewport hack for Surface/desktop Windows 8 bug
+      //- script(src='../../assets/js/ie10-viewport-bug-workaround.js')
 
-    div.container
-      div.page-header
-        h1 Welcome
-        div.jumbotron
-        a(href="/logout") Logout!

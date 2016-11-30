@@ -1,5 +1,15 @@
-.emoji {
-  width: 50px;
-  margin: 20px;
-
+.media-object {
+  width: 250px;
+  margin: 250px;
+}
+.description {
+  text-align: justify;
+}
+button.btn.btn-default {
+  font-size: 15px;
+  height: 34px;
+  padding: 8px;
+}
+div.results {
+  display: block;
 }

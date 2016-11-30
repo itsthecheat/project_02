@@ -15,6 +15,8 @@ const request = require('request');
 
 //KEYS
 var NEWS_KEY = process.env.NEWS_KEY
+var WU_KEY = process.env.WU_KEY
+var RIJK_KEY = process.env.RIJK_KEY
 
 //configure express and related packages
 app.set('view engine', 'pug');
@@ -54,6 +56,9 @@ app.get('/create', function(req, res) {
 app.get('/news', function(req, res){
   res.render('happy');
 })
+app.get('/museum', function(req, res){
+  res.render('art');
+})
 
 //NEWS API
 app.get('/article', function(req, res){
@@ -61,9 +66,20 @@ app.get('/article', function(req, res){
   request(api, function(err, resp, body) {
   body = JSON.parse(body);
   // pass back the results to client side
-  data = body.articles[0]
-  res.send(data);
+  news = body.articles[0]
+  res.send(news);
    // console.log(data)
+  });
+});
+
+//RIJKS API
+app.get('/rijks', function(req, res){
+  var val = req.query.search;
+  var api = 'https://www.rijksmuseum.nl/api/en/collection?q='+val+'&key='+RIJK_KEY+'&format=json';
+  request(api, function(err, resp, body) {
+  body = JSON.parse(body);
+  // pass back the results to client side
+  res.send(body);
   });
 });
 
@@ -87,12 +103,11 @@ app.get('/', function(req, res) {
 //create new user
 app.post('/create', function(req, res) {
     var data = req.body;
-
     bcrypt.hash(data.password, 10, function(err, hash) {
       db.none(
         "INSERT INTO users (email, password) VALUES ($1, $2)", [data.email, hash]
       ).then(function() {
-        res.render('sign_in/create_success');
+        res.redirect('/login')
       })
     });
 });
@@ -100,15 +115,15 @@ app.post('/create', function(req, res) {
 //user login
 app.post('/', function(req, res) {
   var data = req.body;
-
   db.one(
     "SELECT * FROM users WHERE email = $1", [data.email]
-  ).catch(function() {
+  ).catch(function(err) {
     res.render('sign_in/error')
   }).then(function(user) {
     bcrypt.compare(data.password, user.password, function(err, cmp) {
       if (cmp) {
         req.session.user = user;
+        app.locals.user = user.email;
         res.redirect('/login');
       } else {
         res.render('sign_in/error')
