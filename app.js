@@ -60,6 +60,8 @@ app.get('/museum', function(req, res){
   res.render('art');
 })
 
+
+
 //NEWS API
 app.get('/article', function(req, res){
   var api = 'https://newsapi.org/v1/articles?source=independent&sortBy=top&apiKey='+NEWS_KEY;
@@ -68,14 +70,23 @@ app.get('/article', function(req, res){
   // pass back the results to client side
   news = body.articles[0]
   res.send(news);
-   // console.log(data)
+  });
+});
+//BUZZFEED
+app.get('/buzzfeed', function(req, res){
+  var api = 'https://newsapi.org/v1/articles?source=buzzfeed&sortBy=top&apiKey='+NEWS_KEY;
+  request(api, function(err, resp, body) {
+  body = JSON.parse(body);
+  // pass back the results to client side
+  news = body.articles[0]
+  res.send(news);
   });
 });
 
 //RIJKS API
 app.get('/rijks', function(req, res){
   var val = req.query.search;
-  var api = 'https://www.rijksmuseum.nl/api/en/collection?q='+val+'&key='+RIJK_KEY+'&format=json';
+  var api = 'https://www.rijksmuseum.nl/api/en/collection?q='+val+'&key='+RIJK_KEY+'&format=json&imgonly=True';
   request(api, function(err, resp, body) {
   body = JSON.parse(body);
   // pass back the results to client side
@@ -124,7 +135,7 @@ app.post('/', function(req, res) {
       if (cmp) {
         req.session.user = user;
         app.locals.user = user.email;
-        res.redirect('/login');
+        res.render('sign_in/login', {name: req.session.user.email});
       } else {
         res.render('sign_in/error')
       }

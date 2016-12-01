@@ -1,6 +1,5 @@
-.media-object {
-  width: 250px;
-  margin: 250px;
+tr:hover {
+  background-color: skyblue;
 }
 .description {
   text-align: justify;
@@ -10,6 +9,16 @@ button.btn.btn-default {
   height: 34px;
   padding: 8px;
 }
-div.results {
-  display: block;
+/* tr:hover {
+  background-color: skyblue;
+} */
+.child {
+  text-align: justify;
 }
+#results {
+  margin: 10px;
+}
+.thumbnail {
+  align-content: center;
+}
+
