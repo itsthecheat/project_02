@@ -3,7 +3,10 @@
     color: #fff;
     background-color: rgba(255, 48, 36, .5);
 }
-
+.media-body {
+  background-color: #fff;
+  padding: 10px;
+}
 body {
   font-family: 'Comfortaa', cursive;
   padding-top: 20px;
