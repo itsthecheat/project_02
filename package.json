@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "full-stack node web app",
   "main": "app.js",
+  "engines": {
+    "node": "6.8.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -33,3 +37,4 @@
     "request": "^2.79.0"
   }
 }
+
