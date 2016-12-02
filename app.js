@@ -62,20 +62,14 @@ app.get('/about', function(req, res) {
 app.get('/contact', function(req, res) {
   res.render('contact');
 });
-app.get('/user', function(req, res) {
-  item = req.body;
-  var data = req.session.user.email;
-  var id = req.session.user.id;
-  db.one(
-    'SELECT * FROM users WHERE id=$1', [id])
-  res.render('sign_in/remove',{user:data, id:id});
+app.get('/user/:id',function(req, res){
+  db.one('SELECT * FROM users where ID = $1',[req.params.id])
+  .then(function(data){
+    var user = data.email;
+    id = data.id
+    res.render('user', {user:user, id:id});
+  });
 });
-app.delete('/remove',function(req, res){
-  id = req.session.user.id
-  db.none("DELETE FROM users WHERE id=$1", [id])
-  res.render('index')
-});
-
 
 
 //NEWS API
@@ -130,11 +124,13 @@ app.get('/', function(req, res) {
   if (req.session.user) {
     logged_in = true;
     email = req.session.user.email;
+    var id = req.session.user.id
+
      var data = {
     "logged_in": logged_in,
     "email": email
   }
-    res.render('sign_in/login', {name:data.email});
+    res.render('sign_in/login', {user:data.email, id:id});
   } else {
     res.render('index');
   }
@@ -147,7 +143,7 @@ app.post('/create', function(req, res) {
       db.none(
         "INSERT INTO users (email, password) VALUES ($1, $2)", [data.email, hash]
       ).then(function() {
-        res.render('sign_in/login', {name: data.email});
+        res.render('sign_in/login', {user: data.email});
       })
     });
 });
@@ -163,7 +159,8 @@ app.post('/signin', function(req, res) {
     bcrypt.compare(data.password, user.password, function(err, cmp) {
       if (cmp) {
         req.session.user = user;
-        res.render('sign_in/login', {user: req.session.user.email});
+        console.log(user)
+        res.render('sign_in/login', {user:req.session.user.email, id:user.id});
       } else {
         res.render('sign_in/error')
       }
@@ -174,6 +171,6 @@ app.post('/signin', function(req, res) {
 //user logout
 app.get('/logout', function(req, res) {
   req.session.destroy();
-  res.render('sign_in/logout');
+  res.redirect('/');
 });
 

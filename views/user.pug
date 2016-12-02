@@ -1,0 +1,28 @@
+doctype html
+html
+  include sign_in/includes/head.pug
+  link(href='/css/signin.css', rel='stylesheet')
+body
+  .container
+        .header.clearfix
+          nav
+            ul.nav.nav-pills.pull-right
+              li.active(role='presentation')
+                a(href='/') Home
+              li(role='presentation')
+                a(href='/about') About
+              li(role='presentation')
+                a(href='/contact') Contact
+          h3.text-muted Take Fifteen
+        .jumbotron
+          p.lead email: !{user}
+          p.lead id: !{id}
+          form(method='POST', action='/remove/?_method=DELETE')
+            button DELETE
+        .row.marketing
+          .col-lg-12
+
+        footer.footer
+          p © 2016 Leslie L Behum
+
+
