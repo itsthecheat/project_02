@@ -5,7 +5,7 @@ const pug = require('pug');
 const bdPars = require('body-parser'); //body parser
 const methodOverride = require('method-override'); //method override
 const pgp = require('pg-promise')();
-const db = pgp(process.env.DATABASE_URL || 'postgres://lesliebehum@localhost:5432/proj2_users_db?ssl=true');
+const db = pgp(process.env.DATABASE_URL || 'postgres://lesliebehum@localhost:5432/proj2_users_db');
 const app = exp();
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSalt(10);
@@ -45,9 +45,11 @@ app.use(session({
   }))
 
 //start routes
-app.get('/login', function(req, res) {
-  res.render('sign_in/login');
-});
+
+// app.get('/login', function(req, res) {
+//   user = req.session.user;
+//   res.render('sign_in/login');
+// });
 app.get('/create', function(req, res) {
   res.render('sign_in/create');
 });
@@ -121,16 +123,15 @@ app.get('/rijks', function(req, res){
 app.get('/', function(req, res) {
   var logged_in;
   var email;
-
+   var data = {
+    "logged_in": logged_in,
+    "email": email
+  }
   if (req.session.user) {
     logged_in = true;
     email = req.session.user.email;
     var id = req.session.user.id
 
-     var data = {
-    "logged_in": logged_in,
-    "email": email
-  }
     res.render('sign_in/login', {user:data.email, id:id});
   } else {
     res.render('index');
@@ -144,7 +145,7 @@ app.post('/create', function(req, res) {
       db.none(
         "INSERT INTO users (email, password) VALUES ($1, $2)", [data.email, hash]
       ).then(function() {
-        res.render('sign_in/login', {user: data.email});
+        res.render('sign_in/login', {user:data.email});
       })
     });
 });
@@ -152,15 +153,16 @@ app.post('/create', function(req, res) {
 //user login
 app.post('/signin', function(req, res) {
   var data = req.body;
+
   db.one(
-    "SELECT * FROM users WHERE email = $1", [data.email]
+    "SELECT * FROM users WHERE email = $1",
+    [data.email]
   ).catch(function(err) {
     res.render('sign_in/error')
-  }).then(function(user) {
+  }).then(function(user, err) {
     bcrypt.compare(data.password, user.password, function(err, cmp) {
       if (cmp) {
         req.session.user = user;
-        console.log(user)
         res.render('sign_in/login', {user:req.session.user.email, id:user.id});
       } else {
         res.render('sign_in/error')
@@ -174,4 +176,22 @@ app.get('/logout', function(req, res) {
   req.session.destroy();
   res.redirect('/');
 });
+//delete user
+app.delete('/user/:id', function(req, res){
+  id = req.params.id
+  db.none(
+    'DELETE FROM users WHERE id=$1',
+    [id]
+    )
+  res.render('index')
+});
+//update a single user.
+app.put('/user/:id',function(req, res){
+  user = req.body
+  id = req.params.id
 
+  db.none("UPDATE users SET email=$1, password=$2 WHERE id=$3",
+    [user.email,user.password,id])
+
+  res.redirect('/user/'+id);
+});

@@ -12,8 +12,6 @@ var getApi = function () {
     });
   });
 }()
-// var $table = $('<tbody class="table"></tbody>');
-//           $('#results').append($table)
 
 
 var appendData = function(data){
@@ -40,3 +38,6 @@ var appendData = function(data){
 
 
 });
+
+// most code provided by:
+// https://rijksmuseum.github.io/demos/

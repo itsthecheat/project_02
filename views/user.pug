@@ -15,14 +15,22 @@ body
                 a(href='/contact') Contact
           h3.text-muted Take Fifteen
         .jumbotron
+          form.form-signin(method='POST', action='/user/'+id+'?_method=PUT')
+            h3 User profile for !{user}
+            h4.form-signin-heading Change email address:
+            label.sr-only(for='inputEmail') Email
+            input#inputEmail.form-control(type='email', placeholder='Email', name='email')
+            label.sr-only(for='inputPassword') Password
+            input#inputPassword.form-control(type='password', placeholder='Password', name='password')
+            button.btn.btn-lg.btn-primary.btn-block(type='submit') Update
+
           p.lead email: !{user}
           p.lead id: !{id}
-          form(method='POST', action='/remove/?_method=DELETE')
-            button DELETE
+          form(method='POST', action='/user/'+id+'?_method=DELETE')
+            button.btn.btn-sm DELETE
         .row.marketing
           .col-lg-12
 
         footer.footer
           p © 2016 Leslie L Behum
-
 

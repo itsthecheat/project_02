@@ -7,6 +7,6 @@ CREATE TABLE users (
 
 CREATE TABLE favorites (
   id INT PRIMARY KEY,
-  user_id INT REFERENCES users,
+  user_id INT REFERENCES users ON DELETE CASCADE,
   favorite_item VARCHAR(255)
 );

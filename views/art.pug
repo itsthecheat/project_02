@@ -9,15 +9,16 @@ html
           nav
             ul.nav.nav-pills.pull-right
               li.active(role='presentation')
-                a(href='/') Home
+                a(href='/signin') Home
               li(role='presentation')
                 a(href='/about') About
               li(role='presentation')
                 a(href='/contact') Contact
           h3.text-muted Take Fifteen
         .jumbotron
+          p Search the collection of the Rijksmuseum in Amsterdam
           .input-group
-            input.form-control(type='text', placeholder='ex. Picasso')
+            input.form-control(type='text', placeholder='ex. Picasso, landscape...')
             span.input-group-btn
               button.btn.btn-default(type='button') Go!
           div#results.container
@@ -28,8 +29,6 @@ html
 
         footer.footer
           p © 2016 Leslie L Behum
-      //- // /container
-      //- // IE10 viewport hack for Surface/desktop Windows 8 bug
-      //- script(src='../../assets/js/ie10-viewport-bug-workaround.js')
+
 
 

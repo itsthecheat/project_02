@@ -52,3 +52,6 @@ button.btn.btn-default {
 .nav-pills.pull-right {
   border-radius: 0px;
 }
+a {
+  color: black;
+}
