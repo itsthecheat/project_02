@@ -5,7 +5,7 @@ const pug = require('pug');
 const bdPars = require('body-parser'); //body parser
 const methodOverride = require('method-override'); //method override
 const pgp = require('pg-promise')();
-const db = pgp(process.env.DATABASE_URL || 'postgres://lesliebehum@localhost:5432/proj2_users_db?ssl=true');
+const db = pgp(process.env.DATABASE_URL || 'postgres://lesliebehum@localhost:5432/proj2_users_db');
 const app = exp();
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSalt(10);

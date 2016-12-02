@@ -55,3 +55,8 @@ button.btn.btn-default {
 a {
   color: black;
 }
+h3.text-muted {
+  color: black;
+  font-family: 'Yeseva One', cursive;
+  font-size: 40px;
+}
