@@ -30,7 +30,7 @@ app.use(bdPars.urlencoded({
 app.use(bdPars.json()); //body parser
 
 //start the server
-app.listen(8080, function() {
+app.listen(process.env.PORT || 8080, function() {
   console.log('im aliiiive!! on 8080');
 });
 //start sessions
