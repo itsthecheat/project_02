@@ -29,9 +29,9 @@ var appendData = function(data){
       + object.title
       +'</td></tr>').appendTo('.table');
 
-      $row.on("click", function() {
+       $row.on("click", function() {
               document.location = object.links.web;
-            })
+            });
 
       });
       }

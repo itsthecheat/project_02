@@ -9,26 +9,42 @@ html
           nav
             ul.nav.nav-pills.pull-right
               li.active(role='presentation')
-                a(href='/login') Home
+                a(href='/') Home
               li(role='presentation')
                 a(href='/about') About
               li(role='presentation')
                 a(href='/contact') Contact
           h3.text-muted Take Fifteen
         .jumbotron
-          .media
-            .media-left
+          .clearfix
+          .media-left#ind-left
+          .media.content#ind-media
+            div#glyph.glyphicon.glyphicon-heart(aria-hidden='true')
+            img#ind-img.img-responsive(src='')
+            .media-body#ind-body
+              a#ind-link.leave(href='')
+                h2#ind-head.media-heading
+              p#ind-desc.description
+          .clearfix
+          .media-left#buzz-left
+          .media.content#buzz-media
+            div#glyph.glyphicon.glyphicon-heart(aria-hidden='true')
+            img.img-responsive#buzz-img(src='')
+            .media-body#buzz-body
+              a.leave#buzz-link(href='')
+                h2.media-heading#buzz-head
+              p.description#buzz-desc
+          .clearfix
+          .media-left#ny-left
+          .media.content#ny-media
             .clearfix
-            img.img-responsive(src='')
-            .media-body
-              a.leave(href='')
-                h2.media-heading
-              p.description
+            div#glyph.glyphicon.glyphicon-heart(aria-hidden='true')
+            img.img-responsive#ny-img(src='')
+            .media-body#ny-body
+              a.leave#ny-link(href='')
+                h2.media-heading#ny-head
+              p.description#ny-desc
 
         footer.footer
           p © 2016 Leslie L Behum
-      //- // /container
-      //- // IE10 viewport hack for Surface/desktop Windows 8 bug
-      //- script(src='../../assets/js/ie10-viewport-bug-workaround.js')
-
 

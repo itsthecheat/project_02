@@ -44,9 +44,6 @@ app.use(session({
   }))
 
 //start routes
-app.get('/', function(req, res) {
-  res.render('index');
-});
 app.get('/login', function(req, res) {
   res.render('sign_in/login');
 });
@@ -59,6 +56,25 @@ app.get('/news', function(req, res){
 app.get('/museum', function(req, res){
   res.render('art');
 })
+app.get('/about', function(req, res) {
+  res.render('about');
+});
+app.get('/contact', function(req, res) {
+  res.render('contact');
+});
+app.get('/user', function(req, res) {
+  item = req.body;
+  var data = req.session.user.email;
+  var id = req.session.user.id;
+  db.one(
+    'SELECT * FROM users WHERE id=$1', [id])
+  res.render('sign_in/remove',{user:data, id:id});
+});
+app.delete('/remove',function(req, res){
+  id = req.session.user.id
+  db.none("DELETE FROM users WHERE id=$1", [id])
+  res.render('index')
+});
 
 
 
@@ -72,14 +88,26 @@ app.get('/article', function(req, res){
   res.send(news);
   });
 });
+
 //BUZZFEED
 app.get('/buzzfeed', function(req, res){
   var api = 'https://newsapi.org/v1/articles?source=buzzfeed&sortBy=top&apiKey='+NEWS_KEY;
   request(api, function(err, resp, body) {
   body = JSON.parse(body);
   // pass back the results to client side
-  news = body.articles[0]
-  res.send(news);
+  buzz = body.articles[0]
+  res.send(buzz);
+  });
+});
+
+//NEW YORK MAG
+app.get('/nymag', function(req, res){
+  var api = 'https://newsapi.org/v1/articles?source=new-york-magazine&sortBy=top&apiKey='+NEWS_KEY;
+  request(api, function(err, resp, body) {
+  body = JSON.parse(body);
+  // pass back the results to client side
+  nymag = body.articles[0]
+  res.send(nymag);
   });
 });
 
@@ -98,16 +126,17 @@ app.get('/rijks', function(req, res){
 app.get('/', function(req, res) {
   var logged_in;
   var email;
-  var data = {
-    "logged_in": logged_in,
-    "email": email
-  }
+
   if (req.session.user) {
     logged_in = true;
     email = req.session.user.email;
-    res.redirect('/login', data);
+     var data = {
+    "logged_in": logged_in,
+    "email": email
+  }
+    res.render('sign_in/login', {name:data.email});
   } else {
-    res.redirect('/');
+    res.render('index');
   }
 });
 
@@ -118,13 +147,13 @@ app.post('/create', function(req, res) {
       db.none(
         "INSERT INTO users (email, password) VALUES ($1, $2)", [data.email, hash]
       ).then(function() {
-        res.redirect('/login')
+        res.render('sign_in/login', {name: data.email});
       })
     });
 });
 
 //user login
-app.post('/', function(req, res) {
+app.post('/signin', function(req, res) {
   var data = req.body;
   db.one(
     "SELECT * FROM users WHERE email = $1", [data.email]
@@ -134,8 +163,7 @@ app.post('/', function(req, res) {
     bcrypt.compare(data.password, user.password, function(err, cmp) {
       if (cmp) {
         req.session.user = user;
-        app.locals.user = user.email;
-        res.render('sign_in/login', {name: req.session.user.email});
+        res.render('sign_in/login', {user: req.session.user.email});
       } else {
         res.render('sign_in/error')
       }
@@ -148,3 +176,4 @@ app.get('/logout', function(req, res) {
   req.session.destroy();
   res.render('sign_in/logout');
 });
+

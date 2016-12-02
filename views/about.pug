@@ -1,7 +1,7 @@
 doctype html
 html
-  include includes/head.pug
-  link(href='/css/signin.css', rel='stylesheet')
+  include sign_in/includes/head.pug
+
 body
   .container
         .header.clearfix
@@ -15,14 +15,11 @@ body
                 a(href='/contact') Contact
           h3.text-muted Take Fifteen
         .jumbotron
-          p email: !{user}
-          p id: !{id}
-          form(method='POST', action='/remove/!{id}?_method=DELETE')
-            button DELETE
+          p.lead
+            | Stuff about me
+          p
         .row.marketing
           .col-lg-12
 
         footer.footer
           p © 2016 Leslie L Behum
-
-
