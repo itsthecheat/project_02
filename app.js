@@ -45,11 +45,6 @@ app.use(session({
   }))
 
 //start routes
-
-// app.get('/login', function(req, res) {
-//   user = req.session.user;
-//   res.render('sign_in/login');
-// });
 app.get('/create', function(req, res) {
   res.render('sign_in/create');
 });
@@ -145,7 +140,7 @@ app.post('/create', function(req, res) {
       db.none(
         "INSERT INTO users (email, password) VALUES ($1, $2)", [data.email, hash]
       ).then(function() {
-        res.render('sign_in/login', {user:data.email});
+        res.redirect('/');
       })
     });
 });
